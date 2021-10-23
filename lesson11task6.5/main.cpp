@@ -65,8 +65,17 @@ X.O
 */
 
 #include <iostream>
-bool game_field_validation (std::string string){
-
+bool game_field_validation (std::string input){
+    if (input.length() != 3){
+        return false;
+    } else {
+        for (int i = 0; i < input.length(); i++){
+            if (input[i] != 'X' || input[i] != '.' || input[i] != 'O'){
+                return false;
+            }
+        }
+        return true;
+    }
 }
 char game_field_element (std::string firstString, std::string secondSting, std::string thirdString, int x, int y){
     if (x == 0){
