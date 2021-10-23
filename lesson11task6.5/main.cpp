@@ -86,6 +86,69 @@ char game_field_element (std::string firstString, std::string secondSting, std::
         return thirdString[y];
     }
 }
+
+int win_count_row_column (std::string firstString, std::string secondSting, std::string thirdString,bool row, char character){
+    int winCount = 0;
+    for (int i = 0; i < 3; i++){
+        int count = 0;
+        for (int j = 0; j < 3; j++){
+            if (row){
+                if (game_field_element(firstString, secondSting, thirdString, j, i) == character){
+                    count++;
+                }
+            } else {
+                if (game_field_element(firstString, secondSting, thirdString, i, j) == character){
+                    count++;
+                }
+            }
+        }
+        if (count == 3){
+            winCount++;
+        }
+    }
+    return winCount;
+}
+
+int win_count_diag (std::string firstString, std::string secondSting, std::string thirdString,bool positive, char character){
+    int winCount = 0;
+    int count = 0;
+    for (int i = 0; i < 3; i++){
+        if (positive) {
+            if (game_field_element(firstString, secondSting, thirdString, i, i) == character) {
+                count++;
+            }
+        } else {
+            if (game_field_element(firstString, secondSting, thirdString, i, 2-i) == character) {
+                count++;
+            }
+        }
+    }
+    if (count == 3){
+        winCount++;
+    }
+    return winCount;
+}
+
+std::string game_won (std::string firstString, std::string secondSting, std::string thirdString){
+    int winXCountRow = win_count_row_column(firstString,secondSting,thirdString, true, 'X');
+    int winOCountRow = win_count_row_column(firstString,secondSting,thirdString, true, 'O');
+    int winXCountColumn = win_count_row_column(firstString,secondSting,thirdString, false, 'X');
+    int winOCountColumn = win_count_row_column(firstString,secondSting,thirdString, false, 'O');
+    int winXCountDiagPositive = win_count_diag(firstString,secondSting,thirdString, true, 'X');
+    int winOCountDiagPositive = win_count_diag(firstString,secondSting,thirdString, true, 'O');
+    int winXCountDiagNegative = win_count_diag(firstString,secondSting,thirdString, false, 'X');
+    int winOCountDiagNegative = win_count_diag(firstString,secondSting,thirdString, false, 'O');
+    int winSumm = winXCountRow+winOCountRow+winXCountColumn+winOCountColumn+winXCountDiagPositive+winOCountDiagPositive+winXCountDiagNegative+winOCountDiagNegative;
+    if (winSumm > 1){
+        return "Incorrect";
+    } else if (winSumm == 0) {
+        return "Nobody";
+    } else if (winXCountRow == 1 || winXCountColumn == 1 || winXCountDiagPositive == 1 || winXCountDiagNegative == 1) {
+        return "Petya won";
+    } else if (winOCountRow == 1 || winOCountColumn == 1 || winOCountDiagPositive == 1 || winOCountDiagNegative == 1 ){
+        return "Vanya won";
+    }
+}
 int main() {
     std::string firstString;
     std::string secondString;
@@ -96,8 +159,10 @@ int main() {
     std::cin >> secondString;
     std::cout << "Input third string:" << std::endl;
     std::cin >> thirdString;
-
-
-    std::cout << "Hello, World!" << std::endl;
+    if (game_field_validation(firstString) && game_field_validation(secondString) && game_field_validation(thirdString)){
+        std::cout << game_won(firstString,secondString, thirdString) << std::endl;
+    } else {
+        std::cout << "Incorrect" << std::endl;
+    }
     return 0;
 }
