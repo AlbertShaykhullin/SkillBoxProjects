@@ -1,3 +1,0 @@
-C:/Users/HP Omen/CLionProjects/cppSkillboxProjects/cmake-build-debug/CMakeFiles/cppSkillboxProjects.dir
-C:/Users/HP Omen/CLionProjects/cppSkillboxProjects/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/HP Omen/CLionProjects/cppSkillboxProjects/cmake-build-debug/CMakeFiles/rebuild_cache.dir
