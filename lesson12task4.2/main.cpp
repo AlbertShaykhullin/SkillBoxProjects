@@ -21,5 +21,4 @@ int main() {
 
     std::cout << "Duplicate " << numbers[result] << std::endl;
     std::cout << "X " << x << std::endl;
-    return 0;
 }
