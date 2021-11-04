@@ -32,7 +32,7 @@ int main() {
     print_vector(vec);
     std::cout << "Enter number to delete:";
     std::cin >> deleted;
-    erase_element(vec, deleted);
+    vec = erase_element(vec, deleted);
     print_vector(vec);
     return 0;
 }
