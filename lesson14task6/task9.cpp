@@ -20,27 +20,39 @@ void enter_ship(int gameField[10][10], int player, int size){
         std::cin >> x1;
         std::cout << "Enter y1" << std::endl;
         std::cin >> y1;
-        std::cout << "Enter x2" << std::endl;
-        std::cin >> x2;
-        std::cout << "Enter y2" << std::endl;
-        std::cin >> y2;
-        for (int i = x1; i <= x2; ++i) {
-            for (int j = y1; j <= y2; ++j) {
-                if(gameField[i][i] != 0){
-                    correct = false;
-                }
-                counter++;
+        if(size == 1){
+            if(gameField[x1][y1] != 0){correct = false;}
+            if(!correct) {
+                std::cout << "Error wrong data, please enter correct data" << std::endl;
+                correct = true;
+            } else {
+                gameField[x1][y1] = player*size;
+                break;
             }
-        }
-        if(counter != size || !correct) {
-            std::cout << "Error wrong size, please enter correct size" << std::endl;
         } else {
+            std::cout << "Enter x2" << std::endl;
+            std::cin >> x2;
+            std::cout << "Enter y2" << std::endl;
+            std::cin >> y2;
             for (int i = x1; i <= x2; ++i) {
                 for (int j = y1; j <= y2; ++j) {
-                    gameField[i][j] = player*size;
+                    if(gameField[i][i] != 0){
+                        correct = false;
+                    }
+                    counter++;
                 }
             }
-            break;
+            if(counter != size || !correct || ((x1 != x2) && (y1 != y2))) {
+                std::cout << "Error wrong data, please enter correct data" << std::endl;
+                correct = true;
+            } else {
+                for (int i = x1; i <= x2; ++i) {
+                    for (int j = y1; j <= y2; ++j) {
+                        gameField[i][j] = player*size;
+                    }
+                }
+                break;
+            }
         }
     }
 
@@ -49,7 +61,11 @@ void enter_ship(int gameField[10][10], int player, int size){
 void print_gameField(int gameField[10][10]){
     for (int i = 0; i < 10; ++i) {
         for (int j = 0; j < 10; ++j) {
-            std::cout << gameField[i][j] << " ";
+            if (gameField[i][j] >= 0) {
+                std::cout << gameField[i][j] << "  ";
+            } else {
+                std::cout << gameField[i][j] << " ";
+            }
         }
         std::cout << std::endl;
     }
@@ -63,9 +79,11 @@ int main() {
     for (int j = 4; j > 0; --j) {
         for (int i = 0; i < j; ++i) {
             std::cout << "Player 1" << std::endl;
+            std::cout << "Ship size " << 5-j << std::endl;
             enter_ship(gameField, player1, 5-j);
             print_gameField(gameField);
             std::cout << "Player 2" << std::endl;
+            std::cout << "Ship size " << 5-j << std::endl;
             enter_ship(gameField, player2, 5-j);
             print_gameField(gameField);
         }
