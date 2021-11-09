@@ -22,12 +22,12 @@ void enter_area (int &xStart,int &yStart,int &xEnd,int &yEnd){
 }
 
 void bubble_pop(bool pup[12][12], int xStart, int yStart, int xEnd, int yEnd){
-    for (int i = 0; i < 12; ++i) {
-        for (int j = 0; j < 12; ++j) {
-            if (pup[i][j] == true && i >= xStart && i <= xEnd && j >= yStart && j <= yEnd){
+    for (int i = xStart; i <= xEnd; ++i) {
+        for (int j = yStart; j <= yEnd; ++j) {
+            if (pup[i][j] == true){
                 pup[i][j] = false;
                 std::cout << "POP" << " ";
-            } else if (pup[i][j] == false && i >= xStart && i <= xEnd && j >= yStart && j <= yEnd){
+            } else if (pup[i][j] == false){
                 std::cout << "   " << " ";
             }
         }
