@@ -42,13 +42,25 @@ void print_array (int section[5][5]){
     }
 }
 
+void enter_layer(int &layer){
+    while(true){
+        std::cout << "Enter layer" << std::endl;
+        std::cin >> layer;
+        if(layer > 9 || layer < 0){
+            std::cout << "Error, please enter correct layer" << std::endl;
+        } else {
+            break;
+        }
+    }
+}
+
+
 int main() {
     int cube [5][5][10];
     int section[5][5];
     int layer = 0;
     enter_height(cube);
-    std::cout << "Enter layer" << std::endl;
-    std::cin >> layer;
+    enter_layer(layer);
     horizontal_section(cube,section,layer);
     print_array(section);
 }
