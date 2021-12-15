@@ -116,8 +116,8 @@ int count_ship_cell (int gameField[10][10], int player){
     return count;
 }
 
-bool game_run(int gameField[10][10], int player1, int player2){
-    if (count_ship_cell(gameField,player1) == 0 || count_ship_cell(gameField,player2) == 0){
+bool game_run(int gameField[10][10], int player1, int i) {
+    if (count_ship_cell(gameField,player1) == 0){
         return false;
     } else {
         return true;
@@ -162,7 +162,7 @@ void shoot_player(int gameField[10][10], int player){
 int main() {
     int player1 = 1;
     int player2 = -1;
-    int gameField[10][10]; /*= {{1,  -1, 1,  -1, 1,  -1, 1,  -1, 2,  2},
+    int gameField1[10][10]; /*= {{1,  -1, 1,  -1, 1,  -1, 1,  -1, 2,  2},
                              {-2, -2, 2,  2,  -2, -2, 2,  2,  -2, -2},
                              {3,  3,  3,  -3, -3, -3, 3,  3,  3,  0},
                              {-3, -3, -3, 4,  4,  4,  4,  0,  0,  0},
@@ -172,27 +172,38 @@ int main() {
                              {0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
                              {0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
                              {0,  0,  0,  0,  0,  0,  0,  0,  0,  0}};*/
-    initialization_gameField(gameField);
+    int gameField2[10][10]; /*= {{1,  -1, 1,  -1, 1,  -1, 1,  -1, 2,  2},
+                             {-2, -2, 2,  2,  -2, -2, 2,  2,  -2, -2},
+                             {3,  3,  3,  -3, -3, -3, 3,  3,  3,  0},
+                             {-3, -3, -3, 4,  4,  4,  4,  0,  0,  0},
+                             {-4, -4, -4, -4, 0,  0,  0,  0,  0,  0},
+                             {0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+                             {0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+                             {0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+                             {0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+                             {0,  0,  0,  0,  0,  0,  0,  0,  0,  0}};*/
+    initialization_gameField(gameField1);
+    initialization_gameField(gameField2);
     for (int j = 4; j > 0; --j) {
         for (int i = 0; i < j; ++i) {
             std::cout << "Player 1" << std::endl;
             std::cout << "Ship size " << 5-j << std::endl;
-            enter_ship(gameField, player1, 5-j);
-            print_gameField(gameField);
+            enter_ship(gameField1, player1, 5-j);
+            print_gameField(gameField1);
             std::cout << "Player 2" << std::endl;
             std::cout << "Ship size " << 5-j << std::endl;
-            enter_ship(gameField, player2, 5-j);
-            print_gameField(gameField);
+            enter_ship(gameField2, player2, 5-j);
+            print_gameField(gameField2);
         }
     }
-    while (game_run(gameField, player1, player2)){
-        shoot_player(gameField,player1);
-        shoot_player(gameField,player2);
+    while (game_run(gameField1, player1, 0) && game_run(gameField2, player2, 0)){
+        shoot_player(gameField1,player1);
+        shoot_player(gameField2,player2);
     }
     std::cout << "--------------------------------" << std::endl;
-    if (count_ship_cell(gameField, player1) == 0 && count_ship_cell(gameField, player2) > 0) {
+    if (count_ship_cell(gameField1, player1) == 0 && count_ship_cell(gameField2, player2) > 0) {
         std::cout << "Player 2 won" << std::endl;
-    } else if (count_ship_cell(gameField, player2) == 0 && count_ship_cell(gameField, player1) > 0){
+    } else if (count_ship_cell(gameField2, player2) == 0 && count_ship_cell(gameField1, player1) > 0){
         std::cout << "Player 1 won" << std::endl;
     } else {
         std::cout << "Nobody won" << std::endl;
