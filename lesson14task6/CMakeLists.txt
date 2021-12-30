@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.20)
+project(lesson14task6)
+
+set(CMAKE_CXX_STANDARD 14)
+
+add_executable(Task1 task1.cpp)
+add_executable(Task2 task2.cpp)
+add_executable(Task3 task3.cpp)
+add_executable(Task4 task4.cpp)
+add_executable(Task5 task5.cpp)
+add_executable(Task6 task6.cpp)
+add_executable(Task7 task7.cpp)
+add_executable(Task8 task8.cpp)
+add_executable(Task9 task9.cpp)
+add_executable(Task10 task10.cpp)
