@@ -37,6 +37,7 @@ int main() {
     std::vector<int> vectemp;
     std::string input;
     int command;
+    std::cout << "Please, enter 5 numbers minimum" << std::endl;
     do{
         std::getline (std::cin, input);
         vectemp = input_vec(input);
@@ -47,9 +48,14 @@ int main() {
         for (int i = 0; i < vectemp.size(); ++i) {
             vec.push_back(vectemp[i]);
         }
-        vec = sort_vec(vec);
-        if (command == -1){
-            std::cout << vec[4] << std::endl;
+        if (vec.size() < 6 ) {
+            std::cout << "Error, not enough numbers, must be entered 5 numbers minimum"<< std::endl;
+            std::cout << "Please, enter more numbers" << std::endl;
+        } else {
+            vec = sort_vec(vec);
+            if (command == -1) {
+                std::cout << vec[4] << std::endl;
+            }
         }
     } while (command != -2);
 
