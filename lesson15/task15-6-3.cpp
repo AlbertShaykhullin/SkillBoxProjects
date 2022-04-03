@@ -17,7 +17,7 @@ std::vector<int> input_vec (std::string input) {
     return vec;
 }
 
-std::vector<int> sort_vec (std::vector<int> vec) {
+std::vector<int>  sort_vect (std::vector<int> vec) {
     for (int i = vec.size()-1; i >= 0; i--) {
         int maxind = 0;
         for (int j = 0; j <= i; ++j) {
@@ -31,6 +31,18 @@ std::vector<int> sort_vec (std::vector<int> vec) {
     }
     return vec;
 }
+std::vector<int> insert_vec(std::vector<int>vectemp, std::vector<int>vec){
+    for (int i = 0; i < vec.size(); ++i) {
+        if (vec[i] <= vectemp[4]){
+            vectemp.push_back(vec[i]);
+        }
+    }
+    vectemp = sort_vect(vectemp);
+    while (vectemp.size() > 5){
+        vectemp.pop_back();
+    }
+    return vectemp;
+}
 
 int main() {
     std::vector<int> vec;
@@ -38,24 +50,31 @@ int main() {
     std::string input;
     int command;
     std::cout << "Please, enter 5 numbers minimum" << std::endl;
-    do{
-        std::getline (std::cin, input);
-        vectemp = input_vec(input);
-        command = vectemp[vectemp.size()-1];
-        if (command == -1){
+    std::getline (std::cin, input);
+    vectemp = input_vec(input);
+    command = vectemp[vectemp.size()-1];
+    if (command == -1 || command == -2){
+        vectemp.pop_back();
+    }
+    vectemp = sort_vect(vectemp);
+    while (vectemp.size() > 5){
+        vectemp.pop_back();
+    }
+    if (command == -1) {
+        std::cout << vectemp[4] << std::endl;
+    } else if(command == -2){
+        std::cout << vectemp[4] << std::endl;
+        return 0;
+    }
+    do{ std::getline (std::cin, input);
+        vec = input_vec(input);
+        command = vec[vec.size()-1];
+        if (command == -1 || command == -2){
             vectemp.pop_back();
         }
-        for (int i = 0; i < vectemp.size(); ++i) {
-            vec.push_back(vectemp[i]);
-        }
-        if (vec.size() < 6 ) {
-            std::cout << "Error, not enough numbers, must be entered 5 numbers minimum"<< std::endl;
-            std::cout << "Please, enter more numbers" << std::endl;
-        } else {
-            vec = sort_vec(vec);
-            if (command == -1) {
-                std::cout << vec[4] << std::endl;
-            }
+        vectemp = insert_vec(vectemp,vec);
+        if (command == -1 || command == -2) {
+            std::cout << vectemp[4] << std::endl;
         }
     } while (command != -2);
 
