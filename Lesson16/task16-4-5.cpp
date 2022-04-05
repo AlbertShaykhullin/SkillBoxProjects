@@ -13,7 +13,7 @@ enum switches
 int main(){
     int days = 2;
     int current_day = 0;
-    int hours = 23;
+    int hours = 24;
     int current_hour = 0;
     int temperatureOutside = 0;
     int temperatureInside = 0;
@@ -23,54 +23,62 @@ int main(){
     std::string movingOutside;
     std::string lightInside;
     std::string input;
-    std::stringstream text;
     while (current_hour < hours && current_day < days){
+        std::stringstream text;
         switches_state_prev = switches_state;
         std::cout << current_day + 1 << " day " << current_hour << " hour of simulation" << std::endl;
         std::getline ( std::cin, input );
         text << input;
         text >> temperatureOutside >> temperatureInside >> movingOutside >> lightInside;
-        if(temperatureOutside < 0 && switches_state_prev & ~WATER_PIPE_HEATING){
+        if((temperatureOutside < 0) && !(switches_state_prev & WATER_PIPE_HEATING)){
             switches_state |= WATER_PIPE_HEATING;
             std::cout << "WATER_PIPE_HEATING is on" << std::endl;
-        } else if(temperatureOutside > 5){
+        } else if((temperatureOutside > 5) && (switches_state_prev & WATER_PIPE_HEATING)){
             switches_state &= ~WATER_PIPE_HEATING;
             std::cout << "WATER_PIPE_HEATING is off" << std::endl;
         }
-        if(((current_hour >= 0 && current_hour < 5) ||
-            (current_hour > 16 && current_hour < 24)) && movingOutside == "yes"){
+        if(((current_hour >= 0 && current_hour < 5) || (current_hour >= 16 && current_hour < 24))
+             && (movingOutside == "yes")
+             && !(switches_state_prev & LIGHTS_OUTSIDE)){
             switches_state |= LIGHTS_OUTSIDE;
             std::cout << "LIGHTS_OUTSIDE is on" << std::endl;
-        } else {
+        } else if (((current_hour >= 0 && current_hour < 5) || (current_hour >= 16 && current_hour < 24))
+                   && (movingOutside == "no")
+                   && (switches_state_prev & LIGHTS_OUTSIDE)){
+            switches_state &= ~LIGHTS_OUTSIDE;
+            std::cout << "LIGHTS_OUTSIDE is off" << std::endl;
+        } else if ((current_hour >= 5 && current_hour < 16) && (switches_state_prev & LIGHTS_OUTSIDE)) {
             switches_state &= ~LIGHTS_OUTSIDE;
             std::cout << "LIGHTS_OUTSIDE is off" << std::endl;
         }
-        if(temperatureInside < 22){
+        if((temperatureInside < 22) && !(switches_state_prev & HEATERS)){
             switches_state |= HEATERS;
             std::cout << "HEATERS is on" << std::endl;
-        } else if(temperatureOutside >= 25){
+        } else if((temperatureOutside >= 25) && (switches_state_prev & HEATERS)){
             switches_state &= ~HEATERS;
             std::cout << "HEATERS is off" << std::endl;
         }
-        if(temperatureInside > 30){
+        if((temperatureInside > 30) && !(switches_state_prev & CONDITIONER)){
             switches_state |= CONDITIONER;
             std::cout << "CONDITIONER is on" << std::endl;
-        } else if(temperatureOutside <= 25){
+        } else if((temperatureInside <= 25) && (switches_state_prev & CONDITIONER)){
             switches_state &= ~CONDITIONER;
             std::cout << "CONDITIONER is off" << std::endl;
         }
-        if(lightInside == "yes"){
+        if((lightInside == "on") && !(switches_state_prev & LIGHTS_INSIDE)){
             switches_state |= LIGHTS_INSIDE;
-        } else if(lightInside == "no"){
+            std::cout << "LIGHTS_INSIDE is on" << std::endl;
+        } else if((lightInside == "off") && (switches_state_prev & LIGHTS_INSIDE)){
             switches_state &= ~LIGHTS_INSIDE;
+            std::cout << "LIGHTS_INSIDE is off" << std::endl;
         }
-        if((switches_state & LIGHTS_INSIDE) && (current_hour >= 16 && current_hour < 20)){
+        if((switches_state & LIGHTS_INSIDE) && (current_hour >= 16 && current_hour <= 20)){
             lightTemp = 5000 - (current_hour - 16) * (5000 - 2700) / (20 - 16);
         } else if (current_hour == 0) {
             lightTemp = 5000;
         }
         if(switches_state & LIGHTS_INSIDE){
-            std::cout << "LIGHTS_INSIDE is on. Light temperature " << lightTemp << std::endl;
+            std::cout << "Light temperature " << lightTemp << std::endl;
         }
         current_hour++;
         if (current_hour == 24){
