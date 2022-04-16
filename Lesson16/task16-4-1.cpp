@@ -15,7 +15,7 @@ int main() {
         speed > max_speed? speed = max_speed: speed;
         std::sprintf(text, "Speed: %.1f km/h",speed);
         std::cout << text << std::endl;
-    } while (speed > 0);
+    } while (speed > 0.01);
 
 
     return 0;
