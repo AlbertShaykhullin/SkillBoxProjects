@@ -17,7 +17,7 @@ void print_vec(std::vector<int> vec){
 
 int get_position(std::vector<int>vec, int* start){
     if (*start > 11){
-        *start = (*start)%12;
+        *start = (*start)%13;
     }
     for (int i = 0; i < vec.size(); ++i) {
         if (vec[i] == *start){
@@ -30,14 +30,15 @@ int get_position(std::vector<int>vec, int* start){
 
 std::string get_text_from_file(std::string directory,std::vector<int> step,const int* pCurrentPos){
     std::ifstream bank;
-    char buffer[20];
+    char buffer[21];
     std::string question = "";
     std::string filePath = "../" + directory + "\\" + std::to_string(step[*pCurrentPos]) + ".txt";
     bank.open(filePath,std::ios::binary);
+    buffer[21] = '\0';
     if (bank.is_open()){
         while (!bank.eof()){
-            clear_array(buffer, sizeof (buffer));
-            bank.read(buffer, sizeof (buffer));
+            clear_array(buffer, sizeof (buffer)-1);
+            bank.read(buffer, sizeof (buffer)-1);
             question = question + buffer;
         }
     }
