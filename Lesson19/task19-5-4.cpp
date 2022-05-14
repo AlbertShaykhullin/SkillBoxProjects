@@ -20,8 +20,8 @@ int main() {
     std::string path;
     std::string fileExt;
     std::cout << "Enter path of file " << std::endl;
-    std::cin >> path;//"E:\table.png"
-    fileExt = path.substr(path.find('.'));
+    std::cin >> path;//"E:\jaguar.png"
+    fileExt = path.substr(path.find_last_of('.'));
     if (fileExt == ".png"){
         bank.open(path, std::ios::binary);
         if (bank.is_open()) {
