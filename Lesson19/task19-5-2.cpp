@@ -9,17 +9,17 @@ void clear_array(char* buffer, int size){
 }
 
 int main() {
-    char buffer[20];
+    char buffer[21];
     std::ifstream bank;
     std::string path;
     std::cout << "Enter path of file " << std::endl;
     std::cin >> path;//"E:\words.txt"
     bank.open(path, std::ios::binary);
-    //buffer[20] = '\0';
+    buffer[21] = '\0';
     if (bank.is_open()){
         while(!bank.eof()){
-            clear_array(buffer, sizeof (buffer));
-            bank.read(buffer, sizeof (buffer));
+            clear_array(buffer, sizeof (buffer)-1);
+            bank.read(buffer, sizeof (buffer)-1);
             std::cout << buffer;
         }
     }
