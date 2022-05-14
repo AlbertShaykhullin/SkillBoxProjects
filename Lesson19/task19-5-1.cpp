@@ -10,17 +10,19 @@ int main() {
     std::string keyWord;
     std::cout << "Enter name of LOTR person " << std::endl;
     std::cin >> keyWord;
-    bank.open("C:\\Users\\HP Omen\\CLionProjects\\Lesson19\\words.txt", std::ios::binary);
-    while(!bank.eof()){
-        bank >> lotr;
-        vec.push_back(lotr);
-    }
-    bank.close();
-    for (int i = 0; i < vec.size(); ++i) {
-        if (vec[i] == keyWord){
-            counter++;
+    bank.open("words.txt", std::ios::binary);
+    if (!bank.is_open()){
+        std::cout << "Error, file is not exist" << std::endl;
+    } else {
+        while(!bank.eof()){
+            bank >> lotr;
+            if (lotr == keyWord){
+                counter++;
+            }
         }
+        bank.close();
+        std::cout << "word count is " << counter;
     }
-    std::cout << "word count is " << counter;
+
     return 0;
 }
