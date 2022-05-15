@@ -18,10 +18,21 @@ int main() {
     char buffer[8];
     std::ifstream bank;
     std::string path;
-    std::string fileExt;
+    std::string fileExt = "";
     std::cout << "Enter path of file " << std::endl;
     std::cin >> path;//"E:\jaguar.png"
-    fileExt = path.substr(path.find_last_of('.'));
+    try{
+        if (path.rfind('.') > path.size()){
+            throw "No point in address";
+        }else{
+            fileExt = path.substr(path.rfind('.'));
+        }
+
+    }
+    catch (const char* msg){
+        std::cout << msg << std::endl;
+    }
+
     if (fileExt == ".png"){
         bank.open(path, std::ios::binary);
         if (bank.is_open()) {

@@ -3,7 +3,7 @@
 #include <vector>
 #include <algorithm>
 
-void clear_array(char* buffer, int size){
+/*void clear_array(char* buffer, int size){
     char* begin = buffer;
     char* end = begin + size;
     std::fill(begin, end, 0);
@@ -13,7 +13,7 @@ void print_vec(std::vector<int> vec){
         std::cout << vec[i] << " ";
     }
     std::cout << std::endl;
-}
+}*/
 
 int get_position(std::vector<int>vec, int* start){
     if (*start > 11){
@@ -34,11 +34,12 @@ std::string get_text_from_file(std::string directory,std::vector<int> step,const
     std::string question = "";
     std::string filePath = "../" + directory + "\\" + std::to_string(step[*pCurrentPos]) + ".txt";
     bank.open(filePath,std::ios::binary);
-    buffer[21] = '\0';
+    buffer[20] = '\0';
     if (bank.is_open()){
         while (!bank.eof()){
-            clear_array(buffer, sizeof (buffer)-1);
-            bank.read(buffer, sizeof (buffer)-1);
+            //clear_array(buffer, sizeof (buffer)-1);
+            bank.read(buffer, sizeof (buffer));
+            buffer[bank.gcount()] = '\0';
             question = question + buffer;
         }
     }
