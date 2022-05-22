@@ -136,40 +136,52 @@ int main(){
         int* pmoney = &money;
         if (input[0] == '+'){
             std::ofstream out_file("ATM.txt", std::ios::binary);
-            //int money = 150200;
+            if (out_file.is_open()){
+                //int money = 150200;
 
-            fill_atm(atm,coupure,nominale, pmoney);
-            int sum = get_summ_atm(atm);
-            std::cout << "Money loaded " << sum << std::endl;
-            for (int i = 0; i < MAX_COUNT; ++i) {
-                out_file << atm[i] << std::endl;
-            }
-            out_file.close();
-        } else if (input[0] == '-'){
-            std::ifstream in_file("ATM.txt", std::ios::binary);
-            //int out_coupure[COUPURE_COUNT] = {0,0,0,0};
-
-            get_atm(atm, in_file);
-            int summ_atm_begin = get_summ_atm(atm);
-            get_atm_coupure(atm, atm_coupure, nominale);
-            if(get_coupure(coupure, atm_coupure, nominale, pmoney)){
-                int summ = get_summ(coupure,nominale);
-                get_cash(atm,coupure, nominale,pmoney);
-                int summ_atm = get_summ_atm(atm);
-                int sum_all = summ_atm_begin - money;
-
-                std::cout << "Money in atm in the begining " << summ_atm_begin << std::endl;
-                std::cout << "Get cash " << summ << std::endl;
-                std::cout << "Money in atm " << summ_atm << std::endl;
-                std::cout << "Money in atm must be " << sum_all << std::endl;
-
-                std::ofstream out_file("ATM.txt", std::ios::binary);
+                fill_atm(atm,coupure,nominale, pmoney);
+                int sum = get_summ_atm(atm);
+                std::cout << "Money loaded " << sum << std::endl;
                 for (int i = 0; i < MAX_COUNT; ++i) {
                     out_file << atm[i] << std::endl;
                 }
                 out_file.close();
+            }else {
+                std::cout << "File is not exist" << std::endl;
+            }
+
+        } else if (input[0] == '-'){
+            std::ifstream in_file("ATM.txt", std::ios::binary);
+            if (in_file.is_open()){
+                get_atm(atm, in_file);
+                in_file.close();
+                int summ_atm_begin = get_summ_atm(atm);
+                get_atm_coupure(atm, atm_coupure, nominale);
+                if(get_coupure(coupure, atm_coupure, nominale, pmoney)){
+                    int summ = get_summ(coupure,nominale);
+                    get_cash(atm,coupure, nominale,pmoney);
+                    int summ_atm = get_summ_atm(atm);
+                    int sum_all = summ_atm_begin - money;
+
+                    std::cout << "Money in atm in the begining " << summ_atm_begin << std::endl;
+                    std::cout << "Get cash " << summ << std::endl;
+                    std::cout << "Money in atm " << summ_atm << std::endl;
+                    std::cout << "Money in atm must be " << sum_all << std::endl;
+
+                    std::ofstream out_file("ATM.txt", std::ios::binary);
+                    if (out_file.is_open()){
+                        for (int i = 0; i < MAX_COUNT; ++i) {
+                            out_file << atm[i] << std::endl;
+                        }
+                        out_file.close();
+                    } else {
+                        std::cout << "File is not exist" << std::endl;
+                    }
+                } else {
+                    std::cout << "Error, not enough coupure";
+                }
             } else {
-                std::cout << "Error, not enough coupure";
+                std::cout << "File is not exist" << std::endl;
             }
         }
     }

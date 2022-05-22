@@ -7,24 +7,18 @@ int main(){
     int height;
     int width;
     std::srand(std::time(nullptr));
-    std::ofstream file("E:\\pic.txt");
-    std::cin >> height >> width;
-    int arr[height][width];
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            arr[i][j] = rand() % 2;
+    std::ofstream file("pic.txt");
+    if (file.is_open()){
+        std::cin >> height >> width;
+        int arr[height][width];
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                file << rand() % 2 << " ";
+            }
+            file << std::endl;
         }
+    }else {
+        std::cout << "File is not exist" << std::endl;
     }
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            std::cout << arr[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            file << arr[i][j] << " ";
-        }
-        file << std::endl;
-    }
+
 }
